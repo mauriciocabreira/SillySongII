@@ -26,12 +26,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         lyricsView.text = ""
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    
     func shortNameFromName(_ name: String) -> String {
         
         let vowelSet = NSCharacterSet(charactersIn: "aeiou")
@@ -43,7 +37,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
         
         //if name does not contain vowels, return the original name
-        return name
+        return name.lowercased()
     }
     
     
@@ -74,6 +68,18 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func displayLyrics(_ sender: Any) {
+        
+        guard let name = nameField.text, !name.isEmpty else {
+            let alert = UIAlertController(title: "Error", message: "Please type a name.", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+                print("OK")
+            })
+            present(alert, animated: true)
+
+            return
+        }
+
         lyricsView.text =  lyricsForName(lyricsTemplate: bananaFanaTemplate, fullName: nameField.text!)
         
     }
